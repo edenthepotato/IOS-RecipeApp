@@ -5,28 +5,46 @@ struct Recipe: Identifiable, Equatable {
     var name: String
     var ingredients: [String]
     var instructions: String
-    var image: Image? // Added image property
-    var category: String // Added category property
-    var isFavorite: Bool = false // Added isFavorite property
+    var image: Image?
+    var category: String
+    var isFavorite: Bool = false
 }
-
 
 struct ContentView: View {
     @State private var recipes = [
         Recipe(name: "Pasta", ingredients: ["Pasta", "Tomato sauce", "Cheese"], instructions: "Cook pasta, add sauce, sprinkle cheese", image: nil, category: "Italian"),
-        Recipe(name: "Salad", ingredients: ["Lettuce", "Tomato", "Cucumber", "Dressing"], instructions: "Chop veggies, mix with dressing", image: nil, category: "Healthy"),
-        Recipe(name: "Mac & Cheese", ingredients: ["Macaroni", "Cheese"], instructions: "Cook macaroni and put the cheese in", image: nil, category: "Comfort Food"),
+        Recipe(name: "Salad", ingredients: ["Lettuce", "Tomato", "Cucumber", "Dressing"], instructions: "Chop veggies, mix with dressing", image: nil, category: "Other"),
+        Recipe(name: "Mac & Cheese", ingredients: ["Macaroni", "Cheese"], instructions: "Cook macaroni and put the cheese in", image: nil, category: "Other"),
     ]
     @State private var searchText = ""
+    @State private var selectedCategory = "All"
     @State private var showingFavoriteRecipes = false
     @State private var showingAddRecipeView = false
     
     var filteredRecipes: [Recipe] {
-        if searchText.isEmpty {
-            return recipes
-        } else {
-            return recipes.filter { $0.name.localizedCaseInsensitiveContains(searchText) || $0.ingredients.joined(separator: " ").localizedCaseInsensitiveContains(searchText) }
+        var filtered = recipes
+        
+        if selectedCategory != "All" {
+            filtered = filtered.filter { $0.category == selectedCategory }
         }
+        
+        if !searchText.isEmpty {
+            filtered = filtered.filter { $0.name.localizedCaseInsensitiveContains(searchText) || $0.ingredients.joined(separator: " ").localizedCaseInsensitiveContains(searchText) }
+        }
+        
+        return filtered
+    }
+    
+    var categories: [String] {
+        var allCategories = Set<String>()
+        allCategories.insert("All")
+        recipes.forEach { allCategories.insert($0.category) }
+        var sortedCategories = Array(allCategories).sorted() // Sort categories alphabetically
+        if let index = sortedCategories.firstIndex(of: "Other") {
+            let otherCategory = sortedCategories.remove(at: index)
+            sortedCategories.append(otherCategory) // Move "Other" to the end
+        }
+        return sortedCategories
     }
     
     var body: some View {
@@ -34,36 +52,46 @@ struct ContentView: View {
             VStack {
                 SearchBar(searchText: $searchText)
                 
+                Picker(selection: $selectedCategory, label: Text("Category")) {
+                    ForEach(categories, id: \.self) { category in
+                        Text(category)
+                    }
+                }
+                .pickerStyle(MenuPickerStyle())
+                .padding(.horizontal)
+                
                 List {
-                    ForEach(filteredRecipes.indices, id: \.self) { index in
-                        NavigationLink(destination: RecipeDetailView(recipe: recipes[index])) {
-                            RecipeRow(recipe: $recipes[index])
+                    ForEach(filteredRecipes) { recipe in
+                        RecipeRow(recipe: recipe) {
+                            // Toggle favorite status
+                            if let index = self.recipes.firstIndex(where: { $0.id == recipe.id }) {
+                                self.recipes[index].isFavorite.toggle()
+                            }
                         }
                     }
                     .onDelete(perform: deleteRecipe)
                 }
-                
                 .navigationBarTitle("Recipes")
                 .navigationBarItems(trailing:
-                                        HStack {
-                    Button(action: {
-                        showingAddRecipeView = true
-                    }) {
-                        Image(systemName: "plus")
+                    HStack {
+                        Button(action: {
+                            showingAddRecipeView = true
+                        }) {
+                            Image(systemName: "plus")
+                        }
+                        .sheet(isPresented: $showingAddRecipeView) {
+                            AddRecipeView(recipes: self.$recipes, isPresented: $showingAddRecipeView)
+                        }
+                        
+                        Button(action: {
+                            showingFavoriteRecipes.toggle()
+                        }) {
+                            Image(systemName: "star.fill")
+                        }
+                        .sheet(isPresented: $showingFavoriteRecipes) {
+                            FavoriteRecipesView(recipes: self.$recipes)
+                        }
                     }
-                    .sheet(isPresented: $showingAddRecipeView) {
-                        AddRecipeView(recipes: self.$recipes, isPresented: $showingAddRecipeView)
-                    }
-                    
-                    Button(action: {
-                        showingFavoriteRecipes.toggle()
-                    }) {
-                        Image(systemName: "star.fill")
-                    }
-                    .sheet(isPresented: $showingFavoriteRecipes) {
-                        FavoriteRecipesView(recipes: self.$recipes)
-                    }
-                }
                 )
             }
         }
@@ -73,51 +101,51 @@ struct ContentView: View {
         recipes.remove(atOffsets: offsets)
     }
 }
+
     
 struct RecipeRow: View {
-    @Binding var recipe: Recipe
-
+    var recipe: Recipe
+    var toggleFavorite: () -> Void
     var body: some View {
-        HStack {
-            if let image = recipe.image {
-                image
-                    .resizable()
-                    .frame(width: 50, height: 50)
+        NavigationLink(destination: RecipeDetailView(recipe: recipe)) {
+            HStack {
+                if let image = recipe.image {
+                    image
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                }
+                VStack(alignment: .leading) {
+                    Text(recipe.name)
+                    Text("Category: \(recipe.category)")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
+                Spacer()
+                if recipe.isFavorite {
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.yellow)
+                        .onTapGesture {
+                            self.toggleFavorite()
+                        }
+                } else {
+                    Image(systemName: "star")
+                        .foregroundColor(.gray)
+                        .onTapGesture {
+                            self.toggleFavorite()
+                        }
+                }
             }
-            VStack(alignment: .leading) {
-                Text(recipe.name)
-                Text("Category: \(recipe.category)")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-            }
-            Spacer()
-            if recipe.isFavorite {
-                Image(systemName: "star.fill")
-                    .foregroundColor(.yellow)
-                    .onTapGesture {
-                        // Toggle favorite status directly on the recipe object
-                        self.recipe.isFavorite.toggle()
-                    }
-            } else {
-                Image(systemName: "star")
-                    .foregroundColor(.gray)
-                    .onTapGesture {
-                        // Toggle favorite status directly on the recipe object
-                        self.recipe.isFavorite.toggle()
-                    }
-            }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.white)
+                    .shadow(radius: 2)
+            )
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
-                .shadow(radius: 2)
-        )
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
-
-    
     
     struct RecipeDetailView: View {
         var recipe: Recipe

@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 struct FavoriteRecipesView: View {
     @Binding var recipes: [Recipe]
 
@@ -13,7 +12,7 @@ struct FavoriteRecipesView: View {
             List {
                 ForEach(favoriteRecipes) { recipe in
                     NavigationLink(destination: RecipeDetailView(recipe: recipe)) {
-                        RecipeRow(recipe: self.$recipes[self.recipes.firstIndex(of: recipe)!])
+                        RecipeRow(recipe: recipe, toggleFavorite: {})
                     }
                 }
             }
@@ -21,5 +20,3 @@ struct FavoriteRecipesView: View {
         }
     }
 }
-
-
