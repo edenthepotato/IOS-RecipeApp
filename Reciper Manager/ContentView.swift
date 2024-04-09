@@ -39,10 +39,10 @@ struct ContentView: View {
         var allCategories = Set<String>()
         allCategories.insert("All")
         recipes.forEach { allCategories.insert($0.category) }
-        var sortedCategories = Array(allCategories).sorted() // Sort categories alphabetically
+        var sortedCategories = Array(allCategories).sorted()
         if let index = sortedCategories.firstIndex(of: "Other") {
             let otherCategory = sortedCategories.remove(at: index)
-            sortedCategories.append(otherCategory) // Move "Other" to the end
+            sortedCategories.append(otherCategory)
         }
         return sortedCategories
     }
@@ -63,7 +63,6 @@ struct ContentView: View {
                 List {
                     ForEach(filteredRecipes) { recipe in
                         RecipeRow(recipe: recipe) {
-                            // Toggle favorite status
                             if let index = self.recipes.firstIndex(where: { $0.id == recipe.id }) {
                                 self.recipes[index].isFavorite.toggle()
                             }
