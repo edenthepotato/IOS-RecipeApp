@@ -14,6 +14,8 @@
 		ACED3E6D2BA11A5600B69E89 /* Reciper_ManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED3E6C2BA11A5600B69E89 /* Reciper_ManagerTests.swift */; };
 		ACED3E772BA11A5600B69E89 /* Reciper_ManagerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED3E762BA11A5600B69E89 /* Reciper_ManagerUITests.swift */; };
 		ACED3E792BA11A5600B69E89 /* Reciper_ManagerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED3E782BA11A5600B69E89 /* Reciper_ManagerUITestsLaunchTests.swift */; };
+		B17706B22BC5B3390032BF17 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17706B12BC5B3390032BF17 /* SearchBar.swift */; };
+		B17706B42BC5B5260032BF17 /* FavoriteRecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17706B32BC5B5260032BF17 /* FavoriteRecipesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		ACED3E722BA11A5600B69E89 /* Reciper ManagerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Reciper ManagerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACED3E762BA11A5600B69E89 /* Reciper_ManagerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reciper_ManagerUITests.swift; sourceTree = "<group>"; };
 		ACED3E782BA11A5600B69E89 /* Reciper_ManagerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reciper_ManagerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B17706B12BC5B3390032BF17 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		B17706B32BC5B5260032BF17 /* FavoriteRecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRecipesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,8 @@
 		ACED3E5A2BA11A5400B69E89 /* Reciper Manager */ = {
 			isa = PBXGroup;
 			children = (
+				B17706B32BC5B5260032BF17 /* FavoriteRecipesView.swift */,
+				B17706B12BC5B3390032BF17 /* SearchBar.swift */,
 				ACED3E5B2BA11A5400B69E89 /* Reciper_ManagerApp.swift */,
 				ACED3E5D2BA11A5400B69E89 /* ContentView.swift */,
 				ACED3E5F2BA11A5600B69E89 /* Assets.xcassets */,
@@ -259,6 +265,8 @@
 			files = (
 				ACED3E5E2BA11A5400B69E89 /* ContentView.swift in Sources */,
 				ACED3E5C2BA11A5400B69E89 /* Reciper_ManagerApp.swift in Sources */,
+				B17706B42BC5B5260032BF17 /* FavoriteRecipesView.swift in Sources */,
+				B17706B22BC5B3390032BF17 /* SearchBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +430,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Reciper Manager/Preview Content\"";
+				DEVELOPMENT_TEAM = 334DVHWN9B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -450,6 +459,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Reciper Manager/Preview Content\"";
+				DEVELOPMENT_TEAM = 334DVHWN9B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -477,6 +487,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 334DVHWN9B;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				MARKETING_VERSION = 1.0;
@@ -496,6 +507,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 334DVHWN9B;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				MARKETING_VERSION = 1.0;
@@ -514,6 +526,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 334DVHWN9B;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "CSTP-IOS.Reciper-ManagerUITests";
@@ -531,6 +544,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 334DVHWN9B;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "CSTP-IOS.Reciper-ManagerUITests";
